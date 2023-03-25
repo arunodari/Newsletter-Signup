@@ -3,6 +3,7 @@ const request = require("request");
 const bodyParser = require("body-parser");
 const https = require("https");
 const { response } = require("express");
+require("dotenv").config();
 const app = express();
 app.use(bodyParser.urlencoded({ encoded: true }));
 app.use(express.static("public"));
@@ -31,7 +32,7 @@ app.post("/", (req, res) => {
   const url = "https://us21.api.mailchimp.com/3.0/lists/3ed967e049";
   const options = {
     method: "POST",
-    auth: "angela:5d5b62a65948a901f2366f934e040553",
+    auth: `mailchimp:${process.env.API_KEY}`,
   };
   const request = https.request(url, options, (response) => {
     if (response.statusCode === 200) {
@@ -52,12 +53,12 @@ app.post("/failure", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(process.env.PORT || 3000 , () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("server is running on port 3000");
 });
 
 // api key
 // 787c0e97a194e8898e61535281310997-us21 revoked
-// 5d5b62a65948a901f2366f934e040553-us21
+// 5d5b62a65948a901f2366f934e040553-us21 revoked
 // https://us6.api.mailchimp.com/3.0/
 // 3ed967e049
